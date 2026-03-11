@@ -1,0 +1,11 @@
+.venv/
+.venv311/
+__pycache__/
+*.pyc
+*.pt
+*.zip
+*.mp4
+pose_landmarker_lite.task
+.DS_Store
+.env
+*.pdf

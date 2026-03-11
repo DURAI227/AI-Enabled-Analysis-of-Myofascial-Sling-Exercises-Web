@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physio | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #7C3AED;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --bg: #0F172A;
+            --card: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: #F8FAFC;
+            min-height: 100vh;
+        }
+
+        /* Background */
+        .glass-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #A78BFA, #34D399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #94A3B8;
+            margin-bottom: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.3);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            color: #94A3B8;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #F87171;
+            border-color: #EF4444;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-bg"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Physio</div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span style="color: #94A3B8;">Welcome, {{ session.user }}</span>
+                <a href="/history"
+                    style="color: #94A3B8; text-decoration: none; font-weight: 600; margin-right: 1rem;"><i
+                        class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="/logout" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </header>
+
+        <div>
+            <h1>Assessment Dashboard</h1>
+            <p class="subtitle">Select a module to begin your biomechanical analysis.</p>
+        </div>
+
+        <div class="grid">
+            <!-- Assessment Card 1 -->
+            <a href="/assessment" class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-person-walking"></i>
+                    </div>
+                    <span class="tag">AI ENABLED</span>
+                </div>
+
+                <div>
+                    <h2 class="card-title">Myofascial Sling</h2>
+                    <p style="color: #A78BFA; font-size: 0.9rem; margin-top: 5px;">Toe-Touch Analysis</p>
+                </div>
+
+                <p class="card-desc">
+                    Comprehensive evaluation of the Posterior Oblique Sling using computer vision. detection of knee
+                    compensation and spinal curvature.
+                </p>
+
+                <div
+                    style="margin-top: auto; display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 700;">
+                    Start Assessment <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physio | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #7C3AED;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --bg: #0F172A;
+            --card: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: #F8FAFC;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .glass-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            animation: bgPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-card {
+            background: var(--card);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(124, 58, 237, 0.25);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #A78BFA, #34D399);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94A3B8;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748B;
+            transition: 0.3s;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 16px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+        }
+
+        .form-input:focus+i {
+            color: var(--accent);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 16px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(124, 58, 237, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .switch-mode {
+            text-align: center;
+            margin-top: 2rem;
+            color: #94A3B8;
+            font-size: 0.9rem;
+        }
+
+        .switch-mode a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .switch-mode a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: 0.3s;
+        }
+
+        .switch-mode a:hover::after {
+            width: 100%;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34D399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Toggle Animation */
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glass-bg"></div>
+
+    <div class="container">
+        <div class="auth-card">
+            <div class="logo">Physio</div>
+            <p class="subtitle" id="subtitle">Professional Motion Analysis Platform</p>
+
+            <div id="alert-box" class="alert"></div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="fade-in">
+                <div class="form-group">
+                    <input type="email" id="login-email" class="form-input" placeholder="Email Address" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" class="form-input" placeholder="Password" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="btn">
+                    <span>Sign In</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="hidden">
+                <div class="form-group">
+                    <input type="email" id="reg-email" class="form-input" placeholder="Email Address" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-password" class="form-input" placeholder="Password (Min 6 chars)"
+                        required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="reg-confirm" class="form-input" placeholder="Confirm Password" required>
+                    <i class="fa-solid fa-check-double"></i>
+                </div>
+                <button type="submit" class="btn">
+                    <span>Create Account</span>
+                    <i class="fa-solid fa-user-plus"></i>
+                </button>
+            </form>
+
+            <div class="switch-mode">
+                <span id="switch-text">Don't have an account?</span>
+                <a onclick="toggleMode()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        const loginForm = document.getElementById('login-form');
+        const regForm = document.getElementById('register-form');
+        const switchText = document.getElementById('switch-text');
+        const switchBtn = document.querySelector('.switch-mode a');
+        const subtitle = document.getElementById('subtitle');
+        const alertBox = document.getElementById('alert-box');
+
+        function toggleMode() {
+            isLogin = !isLogin;
+
+            // Clear alerts
+            alertBox.style.display = 'none';
+
+            if (isLogin) {
+                // Show Login
+                loginForm.classList.remove('hidden');
+                loginForm.classList.add('fade-in');
+                regForm.classList.add('hidden');
+                regForm.classList.remove('fade-in');
+
+                switchText.innerText = "Don't have an account?";
+                switchBtn.innerText = "Sign Up";
+                subtitle.innerText = "Professional Motion Analysis Platform";
+            } else {
+                // Show Register
+                regForm.classList.remove('hidden');
+                regForm.classList.add('fade-in');
+                loginForm.classList.add('hidden');
+                loginForm.classList.remove('fade-in');
+
+                switchText.innerText = "Already have an account?";
+                switchBtn.innerText = "Sign In";
+                subtitle.innerText = "Join the Future of Physiotherapy";
+            }
+        }
+
+        function showAlert(msg, type) {
+            alertBox.innerText = msg;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'flex';
+        }
+
+        // Login Handler
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const btn = loginForm.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showAlert('Success! Redirecting...', 'success');
+                    window.location.href = '/dashboard';
+                } else {
+                    showAlert(data.error || 'Login failed', 'error');
+                }
+            } catch (err) {
+                showAlert('Connection error. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Sign In</span><i class="fa-solid fa-arrow-right"></i>';
+            }
+        });
+
+        // Register Handler
+        regForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            const btn = regForm.querySelector('button');
+
+            if (password !== confirm) {
+                showAlert("Passwords do not match", 'error');
+                return;
+            }
+
+            try {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating...';
+
+                const res = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    if (data.message.includes("Logging you in")) {
+                        showAlert('Account created! Redirecting...', 'success');
+                        setTimeout(() => window.location.href = '/dashboard', 1000);
+                    } else {
+                        showAlert('Account created! Please Sign In.', 'success');
+                        setTimeout(() => toggleMode(), 1500);
+                    }
+                } else {
+                    showAlert(data.error || 'Registration failed', 'error');
+                }
+            } catch (err) {
+                showAlert('Connection error. Please try again.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>Create Account</span><i class="fa-solid fa-user-plus"></i>';
+            }
+        });
+    </script>
+</body>
+
+</html>
